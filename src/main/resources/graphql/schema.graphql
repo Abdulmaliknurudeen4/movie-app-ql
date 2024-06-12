@@ -1,0 +1,88 @@
+#home page - movies by genre - basic summary
+#scrolldown - movies by genre = basic/summary
+#load movies by id - detailed with reviews
+# load user profile - fav genre, watch list
+# add movies into user wathclist
+# update user profile with fav genre
+
+type Query{
+    userProfile(id: ID!): UserProfile
+    movieDetails(id: ID!): MovieDetails
+    moviesByGenre(genre: Genre): [MovieSummary]!
+}
+type Mutation{
+    addToWatchList(input: WatchListInput!): WatchListResponse!
+    updateProfile(input: CustomerInput!): UserProfile
+}
+type WatchListResponse{
+    status: Status!
+    watchList: [MovieSummary]!
+}
+enum Status{
+    SUCCESS,
+    FAILURE
+}
+
+input CustomerInput{
+    id: ID!
+    name: String!
+    favoriteGenre: Genre!
+}
+input WatchListInput{
+    customerId: Int!
+    movieId: Int!
+}
+
+type UserProfile{
+    id: ID!
+    name: String!
+    favoriteGenre: Genre!
+    watchList: [MovieSummary]!
+    recommended: [MovieSummary]!
+}
+
+interface Movie{
+
+    id: ID!
+    title: String!
+    releaseYear: Int!
+    rating: Int!
+    genre: Genre!
+}
+
+type MovieSummary implements Movie{
+    id: ID!
+    title: String!
+    releaseYear: Int!
+    rating: Int!
+    genre: Genre!
+}
+type MovieDetails implements Movie{
+    id: ID!
+    title: String!
+    releaseYear: Int!
+    rating: Int!
+    genre: Genre!
+    reviews: [Review]!
+}
+
+enum Genre{
+    ACTION,
+    ADVENTURE,
+    ANIMATION,
+    BIOGRAPHY,
+    COMEDY,
+    CRIME,
+    DOCUMENTARY,
+    DRAMA,
+    FANTASY,
+    HORROR,
+    MYSTERY
+}
+
+type Review{
+    id: ID!
+    username: String
+    rating: Int
+    comment: String
+}
