@@ -1,5 +1,8 @@
 package com.nexusforge.graphqlmovieapp.dto;
 
+import lombok.Data;
+
+@Data
 public class Movie {
     private Integer id;
     private String title;
