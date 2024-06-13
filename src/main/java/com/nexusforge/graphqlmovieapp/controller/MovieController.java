@@ -4,6 +4,7 @@ import com.nexusforge.graphqlmovieapp.client.MovieClient;
 import com.nexusforge.graphqlmovieapp.dto.Customer;
 import com.nexusforge.graphqlmovieapp.dto.Genre;
 import com.nexusforge.graphqlmovieapp.dto.Movie;
+import com.nexusforge.graphqlmovieapp.dto.WatchListResponse;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
@@ -24,7 +25,7 @@ public class MovieController {
 
     @SchemaMapping(typeName = "UserProfile")
     public Flux<Movie> watchList(Customer customer) {
-        return this.client.getMoviesById(customer.getWatchList());
+        return this.client.getMoviesByIds(customer.getWatchList());
     }
 
     @SchemaMapping(typeName = "UserProfile")
@@ -34,12 +35,17 @@ public class MovieController {
 
     @QueryMapping
     public Mono<Movie> movieDetails(@Argument Integer id) {
-        return this.client.getMoviesById(List.of(id))
+        return this.client.getMoviesByIds(List.of(id))
                 .next();
     }
 
     @QueryMapping
     public Flux<Movie> moviesByGenre(@Argument Genre genre) {
         return this.client.moviesByGenre(genre);
+    }
+
+    @SchemaMapping(typeName = "WatchListResponse")
+    public Flux<Movie> watchList(WatchListResponse watchListResponse) {
+        return this.client.getMoviesByIds(watchListResponse.getWatchList());
     }
 }

@@ -35,7 +35,7 @@ public class MovieClient {
 
     }
 
-    public Flux<Movie> getMoviesById(List<Integer> ids) {
+    public Flux<Movie> getMoviesByIds(List<Integer> ids) {
         //in case moviesrecommned is null, sends empty list
         return ids.isEmpty() ? Flux.empty() : moviesById(ids);
     }
