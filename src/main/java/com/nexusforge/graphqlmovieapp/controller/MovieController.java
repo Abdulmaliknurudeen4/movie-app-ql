@@ -2,6 +2,7 @@ package com.nexusforge.graphqlmovieapp.controller;
 
 import com.nexusforge.graphqlmovieapp.client.MovieClient;
 import com.nexusforge.graphqlmovieapp.dto.Customer;
+import com.nexusforge.graphqlmovieapp.dto.Genre;
 import com.nexusforge.graphqlmovieapp.dto.Movie;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
@@ -35,5 +36,10 @@ public class MovieController {
     public Mono<Movie> movieDetails(@Argument Integer id) {
         return this.client.getMoviesById(List.of(id))
                 .next();
+    }
+
+    @QueryMapping
+    public Flux<Movie> moviesByGenre(@Argument Genre genre) {
+        return this.client.moviesByGenre(genre);
     }
 }
